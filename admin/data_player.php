@@ -17,17 +17,22 @@
                     <tbody>
                         <?php
                             $no = 1;
+                            $query = "SELECT * FROM games";
+                            $games = mysqli_fetch_array(mysqli_query($koneksi, $query));
                             foreach (mysqli_query($koneksi, "SELECT * FROM players") as $tabel) : 
                         ?>
                         <tr>
                             <th scope="row"><?= $no ?></th>
-                            <td><?= $tabel['nama_player'] ?></td>
+                            <td><?= $tabel['id_player'] ?></td>
                             <td><?= $tabel['username'] ?></td>
                             <td>Player</td>
                             <td>
-                                <a class="btn btn-outline-primary detail" href="?page=detail_player&nama_player=<?= $tabel['nama_player'] ?>"><i class="far fa-eye"></i></a>
-                                <a class="btn btn-outline-warning edit" data-id_player="<?= $tabel['id_player'] ?>" data-nama_player="<?= $tabel['nama_player'] ?>" data-username="<?= $tabel['username'] ?>" href="javascript:void(0);"><i class="fas fa-pencil-alt"></i></a>
-                                <a class="btn btn-outline-danger delete" data-id_player="<?= $tabel['id_player'] ?>" data-nama_player="<?= $tabel['nama_player'] ?>" data-username="<?= $tabel['username'] ?>" href="javascript:void(0);"><i class="fas fa-trash"></i></a>
+                                <a class="btn btn-outline-primary detail" href="?page=detail_player&id_player=<?= $tabel['id_player'] ?>&id_game=<?=$games['id_game']?>"><i class="far fa-eye"></i></a>
+                                <a class="btn btn-outline-primary detail" href="?page=detail_player&id_player=<?= $tabel['id_player'] ?>&id_game=<?=$games['id_game']?>"><i class="far fa-eye"></i></a>
+                                <a class="btn btn-outline-primary detail" href="?page=detail_player&id_player=<?= $tabel['id_player'] ?>&id_game=<?=$games['id_game']?>"><i class="far fa-eye"></i></a>
+                                <a class="btn btn-outline-primary detail" href="?page=detail_player&id_player=<?= $tabel['id_player'] ?>&id_game=<?=$games['id_game']?>"><i class="far fa-eye"></i></a>
+                                <a class="btn btn-outline-warning edit" data-id_player="<?= $tabel['id_player'] ?>" data-id_player="<?= $tabel['id_player'] ?>" data-username="<?= $tabel['username'] ?>" href="javascript:void(0);"><i class="fas fa-pencil-alt"></i></a>
+                                <a class="btn btn-outline-danger delete" data-id_player="<?= $tabel['id_player'] ?>" data-id_player="<?= $tabel['id_player'] ?>" data-username="<?= $tabel['username'] ?>" href="javascript:void(0);"><i class="fas fa-trash"></i></a>
                             </td>
                         </tr>
                         <?php 

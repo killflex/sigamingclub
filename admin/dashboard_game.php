@@ -1,24 +1,30 @@
 <body>
     <?php
+    include '../koneksi.php';
     include '../koneksi2.php';
 
+    if ($_GET['id_game']);
+
     try {
-        $sql = "SELECT * FROM sigamingclub.game";
+        $sql = "SELECT * FROM sinurulhuda.log_game WHERE `id_game`='".$_GET['id_game']."'";
         $result = $pdo->query($sql);
+
         if ($result->rowCount() > 0) {
             $avg_time = array();
-            $longest_time = array();
-            $avg_scr = array();
-            $highest_scr = array();
+            $labelx = array();
             while ($row = $result->fetch()) {
-                $avg_time[] = $row["avg_time"];
-                $longest_time[] = $row["longest_time"];
-                $avg_score[] = $row["avg_score"];
-                $highest_score[] = $row["highest_score"];
+                $waktu_mulai = $row['waktu_mulai'];
+                $waktu_entry = $row['waktu_entry'];
+                $time_mulai = DateTime::createFromFormat('Y-m-d H:i:s',  $waktu_mulai)->format('i');
+                $time_entry = DateTime::createFromFormat('Y-m-d H:i:s',  $waktu_entry)->format('i');
+                $total_waktu = abs($time_mulai - $time_entry);
+                $avg_time[] = $total_waktu;
+
+                $labelx[] = DateTime::createFromFormat('Y-m-d H:i:s',  $waktu_mulai)->format('d.m.Y');
             }
             unset($result);
         } else {
-            echo "No records matching your query were found.";
+            echo "Data Waktu Bermain Player Tidak Ditemukan!";
         }
     } catch (PDOException $e) {
         die("ERROR: Could not able to execute $sql. " . $e->getMessage());
@@ -30,7 +36,7 @@
         <div class="container-fluid px-lg-5">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0"><i class="fas fa-chart-pie fa-sm"></i> Dashboard Game</h1>
+                    <h1 class="m-0"><i class="fas fa-chart-pie fa-sm"></i> Overview Dashboard</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right"></ol>
@@ -40,45 +46,124 @@
     </div>
     
     <div class="content">
-        <div class="container-fluid p-4 d-flex justify-content-center ">
-            <div class="row chartBox">
-                <div class="col-12 ">
-                    <canvas id="myChart"></canvas>
+        <div class="container-fluid p-4 d-flex justify-content-center">
+            <div class="row">
+                <div class="col-12 col-sm-12 mb-4 chartBox">
+                    <canvas id="myChart" ></canvas>
+                </div>
+                <div class="col-12 col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="mytable" style="width:100%">
+                                    <thead>
+                                        
+                                        <tr>
+                                            <th scope="col">Quest ke-</th>
+                                            <?php
+                                                foreach (mysqli_query($koneksi, "SELECT * FROM players") as $tabel) : 
+                                            ?>
+                                            <th scope="col"><?= $tabel['nama_player'] ?></th>
+                                            <?php 
+                                                endforeach; 
+                                            ?>
+                                        </tr>
+                                        
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <th scope="row">1</th>
+                                            <td>sedang</td>
+                                            <td>selesai</td>
+                                            <td>belum</td>
+                                            <td>selesai</td>
+                                            <td>selesai</td>
+                                            <td>selesai</td>
+                                            <td>selesai</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">2</th>
+                                            <td>sedang</td>
+                                            <td>selesai</td>
+                                            <td>belum</td>
+                                            <td>selesai</td>
+                                            <td>selesai</td>
+                                            <td>selesai</td>
+                                            <td>selesai</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">3</th>
+                                            <td>sedang</td>
+                                            <td>selesai</td>
+                                            <td>belum</td>
+                                            <td>selesai</td>
+                                            <td>selesai</td>
+                                            <td>selesai</td>
+                                            <td>selesai</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">4</th>
+                                            <td>sedang</td>
+                                            <td>selesai</td>
+                                            <td>belum</td>
+                                            <td>selesai</td>
+                                            <td>selesai</td>
+                                            <td>selesai</td>
+                                            <td>selesai</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
     <script>
         // Setup Block
         const avg_time = <?php echo json_encode($avg_time); ?>;
-        const longest_time = <?php echo json_encode($longest_time); ?>;
-        const avg_score = <?php echo json_encode($avg_score); ?>;
-        const highest_score = <?php echo json_encode($highest_score); ?>;
-        const length = avg_time.length;
+        const labelx = <?php echo json_encode($labelx); ?>;
 
         const data = {
-            labels: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu' ],
+            labels: labelx,
             datasets: [{
-                label: 'Rata-Rata Waktu Bermain',
+                label: 'Playtime Players',
                 data: avg_time,
-                borderWidth: 1
-            }, {
-                label: 'Waktu Bermain Terlama',
-                data: longest_time,
-                borderWidth: 1
-            }]
+                // fill: true,
+                borderWidth: 1}, 
+            ]
         };
 
         // Config Block
         const config = {
-            type: 'bar',
+            type: 'line',
             data,
             options: {
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value, index, ticks) {
+                                return value + ' mnt';
+                            }
+                        }
+                    },
+                    x: {
+                        // ticks: {
+                        //     callback: function(val, index) {
+                        //         return index % 2 === 0 ? this.getLabelForValue(val) : '';
+                        //     }
+                        // },
+                        type: 'time',
+                        time: {
+                            unit: 'day',
+                            parser: 'dd.MM.yyyy'
+                        },
                     }
                 }
             }

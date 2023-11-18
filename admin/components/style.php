@@ -42,7 +42,7 @@
     }
     .chartBox {
       border-radius: 10px;
-      width: 800px;
+      width: 15vw;
       background-color: white;
     }
   </style>
