@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
 <div class="container-fluid px-5 py-5">
-    <a class="btn btn-success btn-sm mb-2 add" data-toggle="modal" href="#AddModal" href="javascript:void(0);" onclick="document.querySelectorAll('input').value = '' "><i class="fas fa-plus fa-sm fa-fw"></i> Tambah Player</a>
+    <!-- <a class="btn btn-success btn-sm mb-2 add" data-toggle="modal" href="#AddModal" href="javascript:void(0);" onclick="resetAllInput()"><i class="fas fa-plus fa-sm fa-fw"></i> Tambah Player</a> -->
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
@@ -17,6 +17,8 @@
                     <tbody>
                         <?php
                             $no = 1;
+                            $query = "SELECT * FROM games";
+                            $games = mysqli_fetch_array(mysqli_query($koneksi, $query));
                             foreach (mysqli_query($koneksi, "SELECT * FROM players") as $tabel) : 
                         ?>
                         <tr>
@@ -25,9 +27,9 @@
                             <td><?= $tabel['username'] ?></td>
                             <td>Player</td>
                             <td>
-                                <a class="btn btn-outline-primary detail" href="?page=detail_player&nama_player=<?= $tabel['nama_player'] ?>"><i class="far fa-eye"></i></a>
-                                <!-- <a class="btn btn-outline-warning edit" data-id_player="<?= $tabel['id_player'] ?>" data-nama_player="<?= $tabel['nama_player'] ?>" data-username="<?= $tabel['username'] ?>" href="javascript:void(0);"><i class="fas fa-pencil-alt"></i></a>
-                                <a class="btn btn-outline-danger delete" data-id_player="<?= $tabel['id_player'] ?>" data-nama_player="<?= $tabel['nama_player'] ?>" data-username="<?= $tabel['username'] ?>" href="javascript:void(0);"><i class="fas fa-trash"></i></a> -->
+                                <a class="btn btn-outline-primary detail" href="?page=detail_player&id_player=<?= $tabel['id_player'] ?>"><i class="far fa-eye"></i></a>
+                                <a class="btn btn-outline-warning edit" data-id_player="<?= $tabel['id_player'] ?>" data-id_player="<?= $tabel['id_player'] ?>" data-nama_player="<?= $tabel['nama_player'] ?>" data-username="<?= $tabel['username'] ?>" href="javascript:void(0);"><i class="fas fa-pencil-alt"></i></a>
+                                <a class="btn btn-outline-danger delete" data-id_player="<?= $tabel['id_player'] ?>" data-id_player="<?= $tabel['id_player'] ?>" data-nama_player="<?= $tabel['nama_player'] ?>" data-username="<?= $tabel['username'] ?>" href="javascript:void(0);"><i class="fas fa-trash"></i></a>
                             </td>
                         </tr>
                         <?php 

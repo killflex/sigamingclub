@@ -9,8 +9,8 @@
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
         <li class="nav-item"> 
-          <a href="?page=dashboard" class="nav-link <?php if (isset($_GET['page'])) { if ($_GET['page'] == "dashboard") { echo "active";}} ?>">
-            <i class="nav-icon fas fa-home <?php if (isset($_GET['page'])) {if ($_GET['page'] != "dashboard") { echo "text-dark";}} ?>"></i>
+          <a href="?page=dashboard" class="nav-link <?php if (isset($_GET['page'])) { if ($_GET['page'] == "dashboard" || $_GET['page'] == "dashboard_game") { echo "active";}} ?>">
+            <i class="nav-icon fas fa-home <?php if (isset($_GET['page'])) {if ($_GET['page'] != "dashboard" && $_GET['page'] != "dashboard_game") { echo "text-dark";}} ?>"></i>
             <p>
               Dashboard
             </p>
@@ -18,8 +18,8 @@
         </li>
 
         <li class="nav-item">
-          <a href="?page=data_player" class="nav-link <?php if (isset($_GET['page'])) {if ($_GET['page'] == "data_player") {echo "active";}} ?>">
-            <i class="nav-icon fas fa-users" <?php if (isset($_GET['page'])) {if ($_GET['page'] != "data_player") {echo "text-dark";}} ?>></i>
+          <a href="?page=data_player" class="nav-link <?php if (isset($_GET['page'])) {if ($_GET['page'] == "data_player" || $_GET['page'] == "detail_player") {echo "active";}} ?>">
+            <i class="nav-icon fas fa-users" <?php if (isset($_GET['page'])) {if ($_GET['page'] != "data_player" && $_GET['page'] != "detail_player") {echo "text-dark";}} ?>></i>
             <p>
               Data Player
             </p>

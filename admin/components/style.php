@@ -43,5 +43,11 @@
     .chartBox {
       width: 125vh;
     }
+
+    @media only screen and (max-width: 768px) {
+    .chartBox {
+      width: 50vh;
+    }
+  }
   </style>
 </head>

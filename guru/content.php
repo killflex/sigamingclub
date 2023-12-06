@@ -19,7 +19,7 @@
       <?php 
         $info = mysqli_fetch_array($ingfo);
         $no = 1;
-        foreach (mysqli_query($koneksi, "SELECT * FROM games") as $card) : 
+        foreach (mysqli_query($koneksi, "SELECT * FROM games") as $card): 
       ?>
       <div class="col-lg-3 col-12">
         <div class="card h-80">
@@ -27,7 +27,7 @@
           <div class="card-body">
             <h5 class="fs-1"><?= $card['nama_game'] ?></h5>
             <p class="card-text text-justify"><?= $card['deskripsi_game'] ?>.</p>
-            <a href="?page=dashboard_game" class="small-box-footer">Selengkapnya <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="?page=dashboard_game&id_game=<?= $card['id_game'] ?>" class="small-box-footer">Selengkapnya <i class="fas fa-arrow-circle-right"></i></a>
           </div>
         </div>
       </div>
