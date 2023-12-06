@@ -13,12 +13,19 @@
             $avg_time = array();
             $labelx = array();
             while ($row = $result->fetch()) {
-                $waktu_mulai = $row['waktu_mulai'];
-                $waktu_entry = $row['waktu_entry'];
+                $waktu_mulai = isset($row['waktu_mulai']) ? $row['waktu_mulai'] : '-';
+                $waktu_entry = isset($row['waktu_entry']) ? $row['waktu_entry'] : '-';
                 $time_mulai = DateTime::createFromFormat('Y-m-d H:i:s',  $waktu_mulai)->format('i');
                 $time_entry = DateTime::createFromFormat('Y-m-d H:i:s',  $waktu_entry)->format('i');
+
+                $wkt_mulai = new DateTime($row['waktu_mulai']);
+                $since_start = $wkt_mulai->diff(new DateTime($row['waktu_entry']));
+                $minutes = $since_start->days * 24 * 60;
+                $minutes += $since_start->h * 60;
+                $minutes += $since_start->i;
+                
                 $total_waktu = abs($time_mulai - $time_entry);
-                $avg_time[] = $total_waktu;
+                $avg_time[] = $minutes;
 
                 $labelx[] = DateTime::createFromFormat('Y-m-d H:i:s',  $waktu_mulai)->format('d.m.Y');
             }
@@ -48,10 +55,10 @@
     <div class="content">
         <div class="container-fluid p-4 d-flex justify-content-center">
             <div class="row">
-                <div class="col-12 col-sm-12 mb-4 chartBox">
+                <div class="position-relative col-12 col-sm-12 mb-4 chartBox bg-white rounded" >
                     <canvas id="myChart" ></canvas>
                 </div>
-                <div class="col-12 col-sm-12">
+                <!-- <div class="col-12 col-sm-12">
                     <div class="card">
                         <div class="card-body">
                             <div class="table-responsive">
@@ -117,7 +124,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -132,18 +139,21 @@
         const data = {
             labels: labelx,
             datasets: [{
-                label: 'Playtime Players',
+                label: 'Waktu Bermain Players',
                 data: avg_time,
-                // fill: true,
+                fill: true,
                 borderWidth: 1}, 
             ]
         };
 
         // Config Block
         const config = {
-            type: 'line',
+            type: 'bar',
             data,
             options: {
+                interaction: {
+                    mode: 'index'
+                },
                 scales: {
                     y: {
                         beginAtZero: true,

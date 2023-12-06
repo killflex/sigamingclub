@@ -41,9 +41,7 @@
       text-align: justify;
     }
     .chartBox {
-      border-radius: 10px;
-      width: 15vw;
-      background-color: white;
+      width: 125vh;
     }
   </style>
 </head>

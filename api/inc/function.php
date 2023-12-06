@@ -123,14 +123,14 @@ function loginPlayer($loginInput){
             return json_encode($data);
         }
 
-        if (!password_verify($password, $row['password'])){
+        if ($password != $row['password']){
 
             $data = [
             'status' => 401,
             'message' => 'Incorrect Password',
             ];
             header("HTTP/1.0 401 Incorrect Password");
-            return json_encode($data);
+            return $query_run;
         }else{
             
         }
@@ -139,10 +139,52 @@ function loginPlayer($loginInput){
         'status' => 200,
         'message' => 'Login Successfuly',
         'token' => encodeToken(array("id_player" => $row['id_player'],"nama_player" => $row['nama_player'],"username" => $row['username'])),
+        'playerProgression' => playerProgression($row['id_player']),
         ];
         header("HTTP/1.0 200 Login Successfuly");
         return json_encode($data);
     }
+}
+
+function playerProgression($id_player)
+{
+    global $conn;
+    
+    $playerLog = [];
+    $logFetch = [];
+    $i=1;
+    
+    for($i; $i<5;$i++)
+    {
+        // $id_log = $row['id_log'];
+        $query = "SELECT * FROM log_game WHERE id_player = '$id_player' AND id_game = '$i' ORDER BY waktu_entry DESC LIMIT 1";
+        $query_run = mysqli_query($conn, $query);
+        $row = mysqli_fetch_array($query_run, MYSQLI_ASSOC);   
+        
+        if($row !=null)
+        {
+            $logFetch[] = $row;
+        }
+    }
+    
+    // return count($playerLog);
+    $i=0;
+    for($i;$i<4;$i++)
+    {
+        $id_log = $logFetch[$i]['id_log'];
+        $query = "SELECT * FROM log_game_event WHERE id_log = '$id_log'";
+        $query_run = mysqli_query($conn, $query);
+        $row = mysqli_fetch_all($query_run, MYSQLI_ASSOC); 
+        
+        for($j=0;$j<count($row);$j++)
+        {
+            $row[$j]['id_game']=$logFetch[$i]['id_game'];
+        }
+        
+        $playerLog[] = $row;
+    }
+    
+    return $playerLog;
 }
 
 // Store Log Game Data
@@ -175,12 +217,17 @@ function storeLogGame($logGameInput){
 
         $query = "INSERT INTO log_game (id_game, id_player, waktu_mulai, waktu_entry) VALUES ('$id_game', '$id_player', '$waktu_mulai', '$waktu_entry')";
         $result = mysqli_query($conn, $query);
+        $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
         if ($result) {
+            $query = "SELECT * FROM log_game WHERE id_player = '$id_player'ORDER BY id_log DESC LIMIT 1";
+            $query_run = mysqli_query($conn, $query);
+            $row = mysqli_fetch_array($query_run, MYSQLI_ASSOC); 
             
             $data = [
             'status' => 201,
             'message' => 'Log Game Data Created Successfully',
+            'id_log' => $row['id_log'],
             ];
             header("HTTP/1.0 201 Created");
             return json_encode($data);

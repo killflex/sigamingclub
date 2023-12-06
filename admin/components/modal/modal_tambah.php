@@ -31,7 +31,13 @@
                             <div class="col-lg-6 col-md-6 col-sm-12">
                                 <div class="form-group">
                                     <label>Role</label>
-                                    <input type="text" name="role" class="form-control role" value="">
+                                    <div class="input-group mb-3">
+                                        <select class="custom-select" id="inputGroupSelect01">
+                                            <option selected>Pilih...</option>
+                                            <option value="admin">Admin</option>
+                                            <option value="guru">Guru</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>

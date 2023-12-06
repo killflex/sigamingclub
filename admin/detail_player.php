@@ -1,4 +1,4 @@
-<?php if ($_GET['id_player'] && $_GET['id_game']) : ?>
+<?php if ($_GET['id_player']) : ?>
 
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
 
@@ -11,39 +11,51 @@
             <thead>
                 <tr>
                     <th scope="col">Judul Game</th>
-                    <th scope="col">Waktu Bermain</th>
+                    <th scope="col">Waktu Bermain Terakhir</th>
                     <th scope="col">Quest Terakhir</th>
                     <th scope="col">Status Quest</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                    $idgame = 1;
+                $jml_game = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM games"));
+                $i = 1;
+                for ($i;$i<=$jml_game;$i++) {
                     $query = "SELECT * FROM log_game lg 
                             INNER JOIN games ga ON ga.id_game=lg.id_game
                             INNER JOIN log_game_event lge ON lg.id_log=lge.id_log 
-                            WHERE lg.id_player=".$_GET['id_player']." AND lg.id_game=".$_GET['id_player']." ORDER BY lg.id_log DESC LIMIT 1;";
+                            WHERE lg.id_player=".$_GET['id_player']." AND lg.id_game=$i ORDER BY lg.id_log DESC LIMIT 1;";
                     $result = mysqli_query($koneksi, $query);
-                    while (($dtl_player = mysqli_fetch_array($result)) && ($idgame < 5)) {
+                    $query_run = mysqli_fetch_assoc($result);
                 ?>
                     <tr>
-                        <th scope="row"><?= $dtl_player['nama_game'] ?></th>
+                        <td><?= isset($query_run['nama_game']) ? $query_run['nama_game'] : 'Player Belum Memainkan Game!'?></td>
                         <td>
                             <?php 
-                                $waktu_mulai = $dtl_player['waktu_mulai'];
-                                $waktu_entry = $dtl_player['waktu_entry'];
-                                $time_mulai = DateTime::createFromFormat('Y-m-d H:i:s',  $waktu_mulai)->format('i');
-                                $time_entry = DateTime::createFromFormat('Y-m-d H:i:s',  $waktu_entry)->format('i');
-                                $total_waktu = abs($time_mulai - $time_entry);
-                                $avg_time = $total_waktu;
-                                echo $avg_time;
-                            ?> Menit
+                                if(mysqli_num_rows($result) > 0){
+                                    $waktu_mulai = isset($query_run['waktu_mulai']) ? $query_run['waktu_mulai'] : '-';
+                                    $waktu_entry = isset($query_run['waktu_entry']) ? $query_run['waktu_entry'] : '-';
+                                    $time_mulai = DateTime::createFromFormat('Y-m-d H:i:s',  $waktu_mulai)->format('i');
+                                    $time_entry = DateTime::createFromFormat('Y-m-d H:i:s',  $waktu_entry)->format('i');
+
+                                    $wkt_mulai = new DateTime($query_run['waktu_mulai']);
+                                    $since_start = $wkt_mulai->diff(new DateTime($query_run['waktu_entry']));
+                                    $minutes = $since_start->days * 24 * 60;
+                                    $minutes += $since_start->h * 60;
+                                    $minutes += $since_start->i;
+                                    
+                                    $total_waktu = abs($time_mulai - $time_entry);
+                                    $avg_time = $total_waktu;
+                                    echo $minutes, " Menit";
+                                }else{
+                                    echo "-";
+                                }
+                            ?>
                         </td>
-                        <td><?= $dtl_player['no_event'] ?></td>
-                        <td><?= $dtl_player['status_event'] ?></td>
+                        <td><?= isset($query_run['no_event']) ? $query_run['no_event'] : '-'?></td>
+                        <td><?= isset($query_run['status_event']) ? $query_run['status_event'] : '-'?></td>
                     </tr>
                 <?php
-                    $idgame++;
                     }
                 ?>
             </tbody>

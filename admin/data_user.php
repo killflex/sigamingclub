@@ -1,7 +1,7 @@
 <?php $data = mysqli_query($koneksi, "SELECT * FROM login") ?>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
 <div class="container-fluid px-5 py-5 ">
-    <a class="btn btn-success btn-sm mb-2 add" data-toggle="modal" href="#AddModal" href="javascript:void(0);" onclick="document.querySelectorAll('input').value = '' "><i class="fas fa-plus fa-sm fa-fw"></i> Tambah User</a>
+    <a class="btn btn-success btn-sm mb-2 add" data-toggle="modal" href="#AddModal" href="javascript:void(0);" onclick="resetAllInput()"><i class="fas fa-plus fa-sm fa-fw"></i> Tambah User</a>
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
@@ -48,6 +48,11 @@
                 [5, 10, 25, 50, -1],
                 [5, 10, 25, 50, "All"]
             ]
+        });
+    });
+
+    $(document).ready(function(){
+        $('#mytable').on('click', '.add', function() {
         });
     });
 </script>

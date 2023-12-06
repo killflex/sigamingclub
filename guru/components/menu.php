@@ -1,6 +1,6 @@
 <aside class="main-sidebar sidebar-light-primary elevation-4">
   <a href="?page=dashboard" class="brand-link">
-    <img src="https://manhsedati.sch.id/media_library/images/12475625ef378a1ffa8a47c22e8b2e1e.png" alt="Nurul Huda Logo" class="brand-image img-circle" style="opacity: .8; box-shadow: 0px 0px 5px -3px rgba(0,0,0,0.75);">
+    <img src="../dist/img/android-chrome-512x512.png" alt="Nurul Huda Logo" class="brand-image" style="opacity: .8; box-shadow: 0px 0px 5px -3px rgba(0,0,0,0.75);">
     <span class="brand-text font-weight-bold" style="font-size: 18px;">SI NURUL HUDA</span>
   </a>
 
