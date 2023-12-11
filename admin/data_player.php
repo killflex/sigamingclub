@@ -28,15 +28,6 @@
                             <td>Player</td>
                             <td>
                                 <a class="btn btn-outline-primary detail" href="?page=detail_player&id_player=<?= $tabel['id_player'] ?>"><i class="far fa-eye"></i></a>
-                                <!-- <?php
-                                    $idgame = 1;
-                                    while ($idgame < 5) {
-                                ?>
-                                    <a class="btn btn-outline-primary detail" href="?page=detail_player&id_player=<?= $tabel['id_player'] ?>&id_game=<?=$idgame?>"><i class="far fa-eye"></i></a>
-                                <?php
-                                    $idgame++;
-                                    }
-                                ?> -->
                                 <a class="btn btn-outline-warning edit" data-id_player="<?= $tabel['id_player'] ?>" data-id_player="<?= $tabel['id_player'] ?>" data-nama_player="<?= $tabel['nama_player'] ?>" data-username="<?= $tabel['username'] ?>" href="javascript:void(0);"><i class="fas fa-pencil-alt"></i></a>
                                 <a class="btn btn-outline-danger delete" data-id_player="<?= $tabel['id_player'] ?>" data-id_player="<?= $tabel['id_player'] ?>" data-nama_player="<?= $tabel['nama_player'] ?>" data-username="<?= $tabel['username'] ?>" href="javascript:void(0);"><i class="fas fa-trash"></i></a>
                             </td>

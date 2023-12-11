@@ -58,73 +58,6 @@
                 <div class="position-relative col-12 col-sm-12 mb-4 chartBox bg-white rounded" >
                     <canvas id="myChart" ></canvas>
                 </div>
-                <!-- <div class="col-12 col-sm-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="mytable" style="width:100%">
-                                    <thead>
-                                        
-                                        <tr>
-                                            <th scope="col">Quest ke-</th>
-                                            <?php
-                                                foreach (mysqli_query($koneksi, "SELECT * FROM players") as $tabel) : 
-                                            ?>
-                                            <th scope="col"><?= $tabel['nama_player'] ?></th>
-                                            <?php 
-                                                endforeach; 
-                                            ?>
-                                        </tr>
-                                        
-                                    </thead>
-                                    <tbody>
-                                        
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>sedang</td>
-                                            <td>selesai</td>
-                                            <td>belum</td>
-                                            <td>selesai</td>
-                                            <td>selesai</td>
-                                            <td>selesai</td>
-                                            <td>selesai</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">2</th>
-                                            <td>sedang</td>
-                                            <td>selesai</td>
-                                            <td>belum</td>
-                                            <td>selesai</td>
-                                            <td>selesai</td>
-                                            <td>selesai</td>
-                                            <td>selesai</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">3</th>
-                                            <td>sedang</td>
-                                            <td>selesai</td>
-                                            <td>belum</td>
-                                            <td>selesai</td>
-                                            <td>selesai</td>
-                                            <td>selesai</td>
-                                            <td>selesai</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">4</th>
-                                            <td>sedang</td>
-                                            <td>selesai</td>
-                                            <td>belum</td>
-                                            <td>selesai</td>
-                                            <td>selesai</td>
-                                            <td>selesai</td>
-                                            <td>selesai</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
             </div>
         </div>
     </div>
@@ -164,11 +97,6 @@
                         }
                     },
                     x: {
-                        // ticks: {
-                        //     callback: function(val, index) {
-                        //         return index % 2 === 0 ? this.getLabelForValue(val) : '';
-                        //     }
-                        // },
                         type: 'time',
                         time: {
                             unit: 'day',
